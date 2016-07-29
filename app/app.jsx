@@ -3,6 +3,7 @@ var ReactDOM = require('react-dom');
 // Destructuring syntax
 var { Route, Router, IndexRoute, hashHistory } = require('react-router');
 
+var TodoApp = require('TodoApp');
 
 // Load foundation-sites
 $(document).foundation();
@@ -12,6 +13,6 @@ require('style!css!sass!applicationStyles');
 
 // Renders to screen
 ReactDOM.render(
-  <p>Boilerplate 3 Project</p>,
+  <TodoApp/>,
   document.getElementById('app')
 );
