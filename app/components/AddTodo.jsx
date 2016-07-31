@@ -7,7 +7,7 @@ var AddTodo = React.createClass({
     var todoText = this.refs.todoText.value;
 
     if (todoText.length > 0) {
-      this.refs.todoText = '';
+      this.refs.todoText.value = '';
       this.props.onAddTodo(todoText);
     } else {
       this.refs.todoText.focus();
