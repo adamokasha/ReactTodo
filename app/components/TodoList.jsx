@@ -6,11 +6,11 @@ var TodoList = React.createClass({
     var {todos} = this.props;
     var renderTodos = () => {
       // 1. {...todo} spread operator lets us spread out all our properties
-      // as individual props to our component w/ defining everything
-      // 3. Unique key property required for React to keep track of list items
+      // as individual props to our component w/o defining everything
+      // 2. Unique key property required for React to keep track of list items
       return todos.map((todo) => {
         return (
-          <Todo key={todo.id} {...todo}/>
+          <Todo key={todo.id} {...todo} onToggle={this.props.onToggle}/>
         )
       });
     };
