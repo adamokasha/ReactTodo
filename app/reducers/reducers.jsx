@@ -1,3 +1,6 @@
+var uuid = require('node-uuid');
+var moment = require('moment');
+
 export var searchTextReducer = (state = '', action) => {
   switch (action.type) {
     case 'SET_SEARCH_TEXT':
@@ -7,7 +10,6 @@ export var searchTextReducer = (state = '', action) => {
   };
 };
 
-// showCompleteReducer, default false, TOGGLE_SHOW_COMPLETED
 export var showCompleteReducer = (state = false, action) => {
   switch (action.type) {
     case 'TOGGLE_SHOW_COMPLETED':
@@ -16,3 +18,36 @@ export var showCompleteReducer = (state = false, action) => {
       return state;
   }
 };
+
+export var todosReducer = (state = [], action) => {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return [
+        ...state,
+        {
+          id: uuid(),
+          text: action.text,
+          completed: false,
+          createdAt: moment().unix(),
+          completedAt: undefined
+        }
+      ];
+    // Add case for TOGGLE_TODO completed equal to opposite value and updateCompletedAt
+    case 'TOGGLE_TODO':
+      // make change only on array object with matching id
+      // arr.map does NOT mutate the array!
+      return state.map((todo) => {
+          if (todo.id === action.id) {
+             var nextCompleted = !todo.completed;
+             
+             return {
+               ...todo,
+               completed: nextCompleted,
+               completedAt: nextCompleted ? moment().unix() : undefined
+             };
+          }
+        });
+    default:
+      return state;
+  }
+}
