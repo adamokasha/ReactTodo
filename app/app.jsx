@@ -1,5 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+// Lets you provide store to children
+var {Provider} = require('react-redux');
 // Destructuring syntax
 var { Route, Router, IndexRoute, hashHistory } = require('react-router');
 
@@ -25,6 +27,8 @@ require('style!css!sass!applicationStyles');
 
 // Renders to screen
 ReactDOM.render(
-  <TodoApp/>,
+  <Provider store={store}>
+    <TodoApp/>
+  </Provider>,
   document.getElementById('app')
 );

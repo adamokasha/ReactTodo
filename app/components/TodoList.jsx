@@ -1,7 +1,9 @@
 var React = require('react');
-var Todo = require('Todo');
+// companion to provider component, which provides access to store to children, but children need to specify which data they need
+var {connect} = require('react-redux');
+import Todo from 'Todo';
 
-var TodoList = React.createClass({
+export var TodoList = React.createClass({
   render: function () {
     var {todos} = this.props;
     var renderTodos = () => {
@@ -15,7 +17,7 @@ var TodoList = React.createClass({
       // 2. Unique key property required for React to keep track of list items
       return todos.map((todo) => {
         return (
-          <Todo key={todo.id} {...todo} onToggle={this.props.onToggle}/>
+          <Todo key={todo.id} {...todo}/>
         )
       });
     };
@@ -28,4 +30,14 @@ var TodoList = React.createClass({
   }
 });
 
-module.exports = TodoList;
+
+// connects redux store to an individual component
+// below, todos will be set on the props of the TodoList component
+// we can return only the state items we care about (here state.todos)
+export default connect(
+  (state) => {
+    return {
+      todos: state.todos
+    }
+  }
+)(TodoList);
