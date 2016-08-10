@@ -27,17 +27,15 @@ export var todosReducer = (state = [], action) => {
         action.todo
       ];
     // Add case for TOGGLE_TODO completed equal to opposite value and updateCompletedAt
-    case 'TOGGLE_TODO':
+    case 'UPDATE_TODO':
       // make change only on array object with matching id
       // arr.map does NOT mutate the array!
       return state.map((todo) => {
           if (todo.id === action.id) {
-             var nextCompleted = !todo.completed;
-             
+            // seconds spread operator always overwrites any values that are the same in the first
              return {
                ...todo,
-               completed: nextCompleted,
-               completedAt: nextCompleted ? moment().unix() : undefined
+               ...action.updates
              };
           } else {
             // return unmodified
