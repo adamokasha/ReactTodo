@@ -95,14 +95,21 @@ describe('Actions', () => {
     
     // mocha: allows us to set define some code to run before every test
     beforeEach((done) => {
-      testTodoRef = firebaseRef.child('todos').push();
+      var todosRef = firebaseRef.child('todos');
       
-      testTodoRef.set({
-        text: 'Something to do',
-        completed: false,
-        createdAt: 123456
-      }).then(() => done());
+      todosRef.remove().then(() => {
+        testTodoRef = firebaseRef.child('todos').push();
+        
+        return testTodoRef.set({
+          text: 'Something to do',
+          completed: false,
+          createdAt: 123456
+        });
+      })
+      .then(() => done())
+      .catch(done);
     });
+    
     
     // after
     afterEach((done) => {
@@ -126,6 +133,22 @@ describe('Actions', () => {
         });
         
         expect(mockActions[0].updates.completedAt).toExist();
+        
+        done();
+      }, done);
+    });
+    
+    it('should populate todos and dispatch ADD_TODOS', (done) => {
+      const store = createMockStore({});
+      const action = actions.startAddTodos();
+      
+      store.dispatch(action).then(() => {
+        // returns array of all actions that have been dispatched since store was created
+        const mockActions = store.getActions();
+        
+        expect(mockActions[0].type).toEqual('ADD_TODOS');
+        expect(mockActions[0].todos.length).toEqual(1);
+        expect(mockActions[0].todos[0].text).toEqual('Something to do');
         
         done();
       }, done);

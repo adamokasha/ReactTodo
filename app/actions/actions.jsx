@@ -52,6 +52,28 @@ export var addTodos = (todos) => {
   }
 }
 
+// To understand this, see how firebase returns data (the format)
+export var startAddTodos = () => {
+  return (dispatch, getState) => {
+    var todosRef = firebaseRef.child('todos');
+    
+    return todosRef.once('value').then((snapshot) => {
+      var todos = snapshot.val() || {};
+      var parsedTodos = [];
+      
+      Object.keys(todos).forEach((todoId) => {
+        parsedTodos.push({
+          id: todoId,
+          // grab object in todos who's key matches todoId
+          ...todos[todoId]
+        });
+      });
+      
+      dispatch(addTodos(parsedTodos));
+    });
+  };
+};
+
 export var updateTodo = (id, updates) => {
   return {
     type: 'UPDATE_TODO',
