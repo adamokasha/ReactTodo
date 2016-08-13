@@ -11,7 +11,9 @@ import router from 'app/router/';
 // if user arg present someone logged in, if not someone logged out
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
+    // login then grabs todos (unique user todos)
     store.dispatch(actions.login(user.uid));
+    store.dispatch(actions.startAddTodos());
     // when user logs in push them to todos url
     hashHistory.push('/todos');
   } else {
@@ -19,8 +21,6 @@ firebase.auth().onAuthStateChanged((user) => {
     hashHistory.push('/');
   }
 });
-
-store.dispatch(actions.startAddTodos());
 
 // Load foundation
 $(document).foundation();
