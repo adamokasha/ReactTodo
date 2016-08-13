@@ -2,13 +2,12 @@ var webpack = require('webpack');
 var path = require('path');
 var envFile = require('node-env-file');
 
-// set env variable to env variable(on heroku its 'production'). if not available use 'development'
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 try {
   envFile(path.join(__dirname, 'config/' + process.env.NODE_ENV + '.env'));
 } catch (e) {
-  
+
 }
 
 module.exports = {
@@ -36,7 +35,7 @@ module.exports = {
         API_KEY: JSON.stringify(process.env.API_KEY),
         AUTH_DOMAIN: JSON.stringify(process.env.AUTH_DOMAIN),
         DATABASE_URL: JSON.stringify(process.env.DATABASE_URL),
-        STORAGE_BUCKET: JSON.stringify(process.env.STORAGE_BUCKET)      
+        STORAGE_BUCKET: JSON.stringify(process.env.STORAGE_BUCKET)
       }
     })
   ],
@@ -77,6 +76,5 @@ module.exports = {
       path.resolve(__dirname, './node_modules/foundation-sites/scss')
     ]
   },
-  // generate source maps only if environment isn't production
   devtool: process.env.NODE_ENV === 'production' ? undefined : 'cheap-module-eval-source-map'
 };
