@@ -120,5 +120,25 @@ describe('Reducers', () => {
       
       expect(res).toEqual({});
     });
+    
+    it('should wipte todos on logout', () => {
+      var todoData = [{
+        id: '111',
+        text: 'anything',
+        completed: false,
+        completedAt: undefined,
+        createdAt: 33000
+      }];
+      const authData = {
+        uid: '123abc'
+      };
+      const action = {
+        type: 'LOGOUT'
+      };
+      
+      const res = reducers.todosReducer(df(todoData), df(action));
+      
+      expect(res.length).toEqual(0);
+    });
   });
 });
